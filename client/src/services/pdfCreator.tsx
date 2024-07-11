@@ -9,7 +9,7 @@ import ReactPDF, {
 } from "@react-pdf/renderer";
 import Roboto from "../assets/Roboto-Regular.ttf";
 import Font = ReactPDF.Font;
-import img from "../assets/diplomy_2.jpg";
+import img from "../assets/diplom_3.png";
 import Wednesday from "../assets/Wednesday.ttf";
 
 Font.register({
@@ -23,9 +23,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontFamily: "Wednesday",
   },
+  subsection: {
+    marginTop: 0,
+  },
   section: {
     margin: 10,
-    marginTop: 250,
+    marginTop: 80,
     padding: 10,
     flexGrow: 1,
     justifyContent: "center",
@@ -38,14 +41,14 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   footer: {
-    marginTop: 130,
+    marginTop: 320,
     padding: 8,
     fontSize: 40,
   },
   heading: {
     padding: 8,
     fontSize: 60,
-    marginBottom: 50,
+    marginBottom: 35,
   },
   image: {
     zIndex: 0,
@@ -62,12 +65,14 @@ const MyDocument = (props: { objects: { [key: string]: string }[] }) => (
         <Image src={img} />
         <View style={styles.section}>
           <Text style={styles.heading}>{obj["Jméno a příjmení"]}</Text>
-          <Text style={styles.row}>
-            získává diplom za {obj["Umístění"]}. místo
-          </Text>
-          {/*<Text style={styles.row}>v kategorii {obj['Kategorie']}</Text>*/}
-          <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
-          <Text style={styles.footer}>Klepákův mlýn 2023</Text>
+          <View style={styles.subsection}>
+            <Text style={styles.row}>
+              získává diplom za {obj["Umístění"]}. místo
+            </Text>
+            {/*<Text style={styles.row}>v kategorii {obj['Kategorie']}</Text>*/}
+            <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
+          </View>
+          <Text style={styles.footer}>Klepákův mlýn 2024</Text>
         </View>
       </Page>
     ))}
