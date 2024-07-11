@@ -1,4 +1,3 @@
-import React from "react";
 import ReactPDF, {
   Page,
   Text,
@@ -7,28 +6,29 @@ import ReactPDF, {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-import Roboto from "../assets/Roboto-Regular.ttf";
 import Font = ReactPDF.Font;
-import img from "../assets/diplom_3.png";
-import Wednesday from "../assets/Wednesday.ttf";
+import img_1 from "../assets/diplom_1.png";
+import img_2 from "../assets/diplom_2.png";
+import img_3 from "../assets/diplom_3.png";
+import Caudex from "../assets/Caudex-Regular.ttf";
 
 Font.register({
-  family: "Wednesday",
-  src: Wednesday,
+  family: "Caudex-Regular",
+  src: Caudex,
 });
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "Wednesday",
+    fontFamily: "Caudex-Regular",
   },
   subsection: {
     marginTop: 0,
   },
   section: {
     margin: 10,
-    marginTop: 80,
+    marginTop: 133,
     padding: 10,
     flexGrow: 1,
     justifyContent: "center",
@@ -38,17 +38,22 @@ const styles = StyleSheet.create({
   },
   row: {
     padding: 8,
-    fontSize: 40,
+    fontSize: 30,
   },
   footer: {
     marginTop: 320,
     padding: 8,
-    fontSize: 40,
+    fontSize: 30,
+  },
+  klepak_footer: {
+    marginTop: 9,
+    padding: 8,
+    fontSize: 20,
   },
   heading: {
     padding: 8,
-    fontSize: 60,
-    marginBottom: 35,
+    fontSize: 50,
+    marginBottom: 15,
   },
   image: {
     zIndex: 0,
@@ -58,21 +63,24 @@ const styles = StyleSheet.create({
   },
 });
 
+const img: Map<number, string> = new Map([
+  [1, img_1],
+  [2, img_2],
+  [3, img_3],
+]);
 const MyDocument = (props: { objects: { [key: string]: string }[] }) => (
   <Document>
     {props.objects.map((obj, index) => (
       <Page key={index} size="A4" style={styles.page}>
-        <Image src={img} />
+        <Image src={img.get(parseInt(obj["Umístění"]))} />
         <View style={styles.section}>
           <Text style={styles.heading}>{obj["Jméno a příjmení"]}</Text>
-          <View style={styles.subsection}>
-            <Text style={styles.row}>
-              získává diplom za {obj["Umístění"]}. místo
-            </Text>
-            {/*<Text style={styles.row}>v kategorii {obj['Kategorie']}</Text>*/}
-            <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
-          </View>
-          <Text style={styles.footer}>Klepákův mlýn 2024</Text>
+          <Text style={styles.footer}>
+            získává diplom za {obj["Umístění"]}. místo
+          </Text>
+          <Text style={styles.row}>v kategorii {obj["Kategorie"]}</Text>
+          <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
+          <Text style={styles.klepak_footer}>Klepákův mlýn 2024</Text>
         </View>
       </Page>
     ))}
