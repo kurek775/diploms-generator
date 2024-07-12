@@ -78,7 +78,9 @@ const MyDocument = (props: { objects: { [key: string]: string }[] }) => (
           <Text style={styles.footer}>
             získává diplom za {obj["Umístění"]}. místo
           </Text>
-          <Text style={styles.row}>v kategorii {obj["Kategorie"]}</Text>
+          {obj["Disciplína"] !== "Úklid" ? (
+            <Text style={styles.row}>v kategorii {obj["Kategorie"]}</Text>
+          ) : null}
           <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
           <Text style={styles.klepak_footer}>Klepákův mlýn 2024</Text>
         </View>
