@@ -7,21 +7,21 @@ import ReactPDF, {
   Image,
 } from "@react-pdf/renderer";
 import Font = ReactPDF.Font;
-import img_1 from "../assets/diplom_1.png";
-import img_2 from "../assets/diplom_2.png";
-import img_3 from "../assets/diplom_3.png";
-import Caudex from "../assets/Caudex-Regular.ttf";
+import img_1 from "../assets/1.jpg";
+import img_2 from "../assets/2.jpg";
+import img_3 from "../assets/3.jpg";
+import RingbearerCE from "../assets/RingbearerCE.otf";
 
 Font.register({
-  family: "Caudex-Regular",
-  src: Caudex,
+  family: "RingbearerCE",
+  src: RingbearerCE,
 });
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "Caudex-Regular",
+    fontFamily: "RingbearerCE",
   },
   subsection: {
     marginTop: 0,
@@ -41,12 +41,12 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   footer: {
-    marginTop: 320,
+    marginTop: 140,
     padding: 8,
     fontSize: 30,
   },
   klepak_footer: {
-    marginTop: 9,
+    marginTop: 250,
     padding: 8,
     fontSize: 20,
   },
@@ -81,7 +81,7 @@ const MyDocument = (props: { objects: { [key: string]: string }[] }) => (
           {obj["Disciplína"] !== "Úklid" ? (
             <Text style={styles.row}>v kategorii {obj["Kategorie"]}</Text>
           ) : null}
-          <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
+          <Text style={styles.row}>{obj["Disciplína"]}</Text>
           <Text style={styles.klepak_footer}>Klepákův mlýn 2024</Text>
         </View>
       </Page>
