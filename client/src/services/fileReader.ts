@@ -1,5 +1,4 @@
 import * as XLSX from "xlsx";
-import createDocument from "./pdfCreator";
 
 function fileReader(f: File | null): Promise<{ [key: string]: string }[]> {
   return new Promise((resolve, reject) => {
@@ -61,16 +60,9 @@ type Record = {
 };
 
 function parseUnsortedData(data: Record[]): any[] {
-  const dataWithCategories = data.map((record) => {
-    const category = record["Třída"] as number;
-    return { ...record, Category: getCategory(category) };
-  });
-
   let finalData: Record[] = [];
   categories.forEach((cat) => {
-    const filtered = dataWithCategories.filter(
-      (d) => d.Category === cat.category
-    );
+    const filtered = data.filter((d) => d.Kategorie === cat);
     sports.forEach((sport: Sport) => {
       const sortedWithPlacement = (() => {
         const sorted = filtered.sort((a, b) => {
@@ -92,13 +84,13 @@ function parseUnsortedData(data: Record[]): any[] {
           const currentValue = entry[sport.name] as number;
 
           if (lastValue === null || currentValue !== lastValue) {
-            currentRank++; // Only increment rank when value changes
+            currentRank++;
             lastValue = currentValue;
           }
 
           result.push({
             "Jméno a příjmení": entry["Jméno a příjmení"],
-            Kategorie: entry.Category,
+            Kategorie: entry.Kategorie,
             Disciplína: sport.name,
             Umístění: currentRank,
           });
@@ -115,14 +107,14 @@ function parseUnsortedData(data: Record[]): any[] {
 }
 
 export type SportType =
-  | "Krádež"
-  | "Lov"
-  | "Běh"
-  | "Plavání"
-  | "Jízda na kole"
-  | "Volejbal"
-  | "Fotbal"
-  | "Hokej";
+  | "Střelba"
+  | "Discgolf"
+  | "Biatlon"
+  | "Luk"
+  | "Tanec"
+  | "Cornhole"
+  | "Člunkový běh"
+  | "Opičárna";
 export type SortType = "Min" | "Max" | "Time";
 export interface Sport {
   name: SportType;
@@ -130,28 +122,49 @@ export interface Sport {
 }
 const sports: Sport[] = [
   {
-    name: "Krádež",
-    sort: "Min",
-  },
-  {
-    name: "Lov",
+    name: "Střelba",
     sort: "Max",
   },
   {
-    name: "Běh",
+    name: "Discgolf",
+    sort: "Min",
+  },
+  {
+    name: "Biatlon",
     sort: "Time",
+  },
+  {
+    name: "Člunkový běh",
+    sort: "Time",
+  },
+  {
+    name: "Opičárna",
+    sort: "Time",
+  },
+  {
+    name: "Luk",
+    sort: "Max",
+  },
+  {
+    name: "Tanec",
+    sort: "Max",
+  },
+  {
+    name: "Cornhole",
+    sort: "Max",
   },
 ];
 
 const categories = [
-  { category: "Nejmladší", range: [1, 2, 3] },
-  { category: "Prostřední", range: [4] },
-  { category: "Starší", range: [5] },
-  { category: "Neznámá kategorie", range: [6] },
+  "piškoti",
+  "starší dívky",
+  "mladší dívky",
+  "starší chlapci",
+  "mladší chlapci",
+  "nejstarší dívky",
+  "nejstarší chlapci",
+  "nejmladší dívky",
+  "nejmladší chlapci",
 ];
-function getCategory(category: number): string {
-  const found = categories.find((c) => c.range.includes(category));
-  return found ? found.category : "Neznámá kategorie";
-}
 
 export default processFile;

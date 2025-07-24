@@ -1,4 +1,3 @@
-import React from "react";
 import ReactPDF, {
   Page,
   Text,
@@ -7,45 +6,69 @@ import ReactPDF, {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
-import Roboto from "../assets/Roboto-Regular.ttf";
 import Font = ReactPDF.Font;
-import img from "../assets/diplomy_2.jpg";
-import Wednesday from "../assets/Wednesday.ttf";
+import img1 from "../assets/img1.png";
+import img2 from "../assets/img2.png";
+import img3 from "../assets/img3.png";
+import RingbearerMedium from "../assets/RingbearerCE.otf";
 
 Font.register({
-  family: "Wednesday",
-  src: Wednesday,
+  family: "RingbearerMedium",
+  src: RingbearerMedium,
 });
 
 const styles = StyleSheet.create({
   page: {
     flexDirection: "column",
     alignItems: "center",
-    fontFamily: "Wednesday",
+    fontFamily: "RingbearerMedium",
   },
   section: {
     margin: 10,
-    marginTop: 250,
+    marginTop: 73,
     padding: 10,
     flexGrow: 1,
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",
+    textAlign: "center",
     zIndex: 0,
   },
-  row: {
-    padding: 8,
-    fontSize: 40,
+  sectionBigMarginTop: {
+    margin: 10,
+    marginTop: 150,
+    padding: 10,
+    flexGrow: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "absolute",
+    textAlign: "center",
+    zIndex: 0,
   },
-  footer: {
-    marginTop: 130,
-    padding: 8,
-    fontSize: 40,
+  pageCenter: {
+    flexDirection: "column",
+    alignItems: "center",
+    fontFamily: "RingbearerMedium",
   },
+
   heading: {
     padding: 8,
-    fontSize: 60,
-    marginBottom: 50,
+    fontSize: 55,
+    marginBottom: 29,
+  },
+  row: {
+    padding: 4,
+    marginBottom: 10,
+  },
+  smallFont: {
+    fontSize: 21,
+    padding: 4,
+    marginBottom: 13,
+  },
+  bigFont: {
+    fontSize: 30,
+    padding: 4,
+    marginBottom: 16,
   },
   image: {
     zIndex: 0,
@@ -54,23 +77,40 @@ const styles = StyleSheet.create({
     minHeight: 100,
   },
 });
-
+const images = [img1, img2, img3];
 const MyDocument = (props: { objects: { [key: string]: string }[] }) => (
   <Document>
-    {props.objects.map((obj, index) => (
-      <Page key={index} size="A4" style={styles.page}>
-        <Image src={img} />
-        <View style={styles.section}>
-          <Text style={styles.heading}>{obj["Jméno a příjmení"]}</Text>
-          <Text style={styles.row}>
-            získává diplom za {obj["Umístění"]}. místo
-          </Text>
-          <Text style={styles.row}>v kategorii {obj["Kategorie"]}</Text>
-          <Text style={styles.row}>v disciplíně {obj["Disciplína"]}</Text>
-          <Text style={styles.footer}>Klepákův mlýn 2023</Text>
-        </View>
-      </Page>
-    ))}
+    {props.objects.map((obj, index) => {
+      const isThirdImg = (index + 1) % 3 === 0;
+      return (
+        <Page key={index} size="A4" style={styles.page}>
+          <Image src={images[index % images.length]} />
+          <View
+            style={isThirdImg ? styles.sectionBigMarginTop : styles.section}
+          >
+            <Text style={styles.heading}>Diplom</Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              Za {obj["Umístění"]}. místo
+            </Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              Disciplína:
+            </Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              {obj["Disciplína"]}
+            </Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              Kategorie:
+            </Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              {obj["Kategorie"]}
+            </Text>
+            <Text style={isThirdImg ? styles.smallFont : styles.bigFont}>
+              {obj["Jméno a příjmení"]}
+            </Text>
+          </View>
+        </Page>
+      );
+    })}
   </Document>
 );
 

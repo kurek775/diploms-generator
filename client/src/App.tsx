@@ -1,7 +1,6 @@
-import React from "react";
 import "./App.css";
-import InputForm from "./InputForm";
 import "bootstrap/dist/css/bootstrap.min.css";
+import InputForm from "./inputForm";
 
 function App() {
   return (
